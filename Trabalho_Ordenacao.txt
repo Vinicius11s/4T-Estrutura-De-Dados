@@ -1,0 +1,24 @@
+Incrementa a direita e decrementa a esquerda e vai ordenando - Insert Sort
+Pergunta para todos elementos do vetor para comparar - Select Sort
+Pega os menores joga pra tras e maior joga pra frente , n valida da esquerda sempre o da
+direita - Bubble Sort
+
+Marcar tempo para ver qual é mais eficiente
+
+Trabalho
+Carregar vetor com numeros randomicos
+Menu para usuario informar qual vetor executar os 3 metodos de ordenação (5000, 10000...)
+
+<stdlib.h>
+<time.h>
+
+srand(time(NULL));
+rand() % 100 // aleatorios de 0 a 100.
+
+Menu para usuario informar qual vetor executar os 3 metodos de ordenação (vet(5000), vet(10000)...)
+carregar vetor 1 vez;
+ter copias do vetor gerado;vetores tem q ser iguais;
+-comecei - (clock_t //armazena tempo inicial) 
+-ordenei
+-terminei
+temoi de execução
