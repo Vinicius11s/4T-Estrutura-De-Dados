@@ -16,6 +16,9 @@ struct imoveis{
 	float valor;
 	bool status;
 };
+	
+
+
 
 void exibir_imovel(int imovel_escohido, struct imoveis reg_imovel[TF]){
 	system("cls");

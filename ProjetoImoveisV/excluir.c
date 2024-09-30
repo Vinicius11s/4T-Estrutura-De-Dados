@@ -16,6 +16,12 @@ struct imoveis{
 	bool status;
 };
 
+void ordenarAtivos(struct imoveis reg_imovel[TF]){
+	
+	
+}
+
+
 void listar_imoveis_excluir(struct imoveis reg_imovel[TF]){
 	int i, opcao = -1, imovel_escohido;
 

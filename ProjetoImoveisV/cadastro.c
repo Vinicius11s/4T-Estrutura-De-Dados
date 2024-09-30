@@ -16,18 +16,14 @@ struct imoveis{
 	bool status;
 };
 
-void carregar_registro(struct imoveis reg_imovel[TF]){
+void carregar_registro(int *ponteiroTamanho, int tamanhoVetor, struct imoveis reg_imovel[tamanhoVetor]){
+	
 	int i=0, j=0, opcao = -1;
+	
 	do{
-		if (i >= TF){
-			system("cls");
-			
-			printf("\t<<<Cadastro de um Novo Imóvel>>>");
-            printf("\n\nLimite de %d imóveis atingido! Não é possível cadastrar.\n", TF);
-            printf("\n");
-            system("pause");
-            break;
-        }
+		tamanhoVetor = tamanhoVetor + 1;
+		*ponteiroTamanho = tamanhoVetor;
+		
 		system("cls");
 	    reg_imovel[i].tipo = 0;
 	    
@@ -70,12 +66,7 @@ void carregar_registro(struct imoveis reg_imovel[TF]){
 		printf("\n1-Sim ; 2-Não.");
 		printf("\nDeseja cadastrar um novo Imóvel ? ");
 		scanf("%d", &opcao);
-	
-		if(opcao == 2){
-			for(j=i+1; j<TF; j++){
-				strcpy(reg_imovel[j].nome, "");
-			}
-		}
+
 		i++;
 	}while(opcao != 2);
 }

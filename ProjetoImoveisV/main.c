@@ -5,8 +5,6 @@
 #include <windows.h>
 #include <stdbool.h>
 
-#define TF 3
-
 struct imoveis{
 	int tipo;
 	char nome[100];
@@ -20,7 +18,7 @@ void limpaTela(){
 	system("cls");
 }
 
-void consultaRegistgros(int *aux, int opcao, struct imoveis reg_imovel[TF]){
+void consultaRegistros(int *aux, int opcao, struct imoveis reg_imovel[TF]){
 	switch(opcao){
 		case 2:
 			if(*aux == 0){
@@ -65,8 +63,11 @@ void consultaRegistgros(int *aux, int opcao, struct imoveis reg_imovel[TF]){
 
 }
 
-void menu(struct imoveis reg_imovel[TF]) {
+void menu(struct imoveis reg_imovel[0]){
 	limpaTela();
+	int tamanhoVetor = 0;
+	int *ponteiroTamanho;
+	
 	setlocale(LC_ALL,"portuguese");
 	
 	int aux = 0, opcao = -1; 
@@ -92,18 +93,19 @@ void menu(struct imoveis reg_imovel[TF]) {
 	
 		switch(opcao){
 			case 1:
-				carregar_registro(reg_imovel);
+				carregar_registro(&ponteiroTamanho, tamanhoVetor, reg_imovel);
 				aux++;
 			break;
 			case 2:
-				consultaRegistgros(&aux, opcao, reg_imovel);
+				consultaRegistros(&ponteiroTamanho, opcao, reg_imovel);
 			break;
+			/*
 			case 3:
 				consultaRegistgros(&aux, opcao, reg_imovel);
 			break;
 			case 4:
 				consultaRegistgros(&aux, opcao, reg_imovel);	
-			break;
+			break;*/
 			case 0:
 				printf("\nFim!\n");
 			break;
@@ -113,7 +115,7 @@ void menu(struct imoveis reg_imovel[TF]) {
 				printf("Opção Inválida !!");
 				printf("\n");
 				printf("\n");
-				system("pause");
+				system("pause");*/
 		}		
 	}
 }
@@ -121,7 +123,7 @@ void menu(struct imoveis reg_imovel[TF]) {
 	
 void main() {
 	setlocale(LC_ALL,"portuguese");
-	struct imoveis reg_imovel[TF];
+	struct imoveis reg_imovel[0];
 	
 	menu(reg_imovel);
 }
