@@ -3,6 +3,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define TF 3	
 
@@ -12,6 +13,7 @@ struct imoveis{
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	bool status;
 };
 
 void carregar_registro(struct imoveis reg_imovel[TF]){
@@ -20,7 +22,7 @@ void carregar_registro(struct imoveis reg_imovel[TF]){
 		if (i >= TF){
 			system("cls");
 			
-			printf("\t<<<Cadastro de Imóveis>>>");
+			printf("\t<<<Cadastro de um Novo Imóvel>>>");
             printf("\n\nLimite de %d imóveis atingido! Não é possível cadastrar.\n", TF);
             printf("\n");
             system("pause");
@@ -30,12 +32,12 @@ void carregar_registro(struct imoveis reg_imovel[TF]){
 	    reg_imovel[i].tipo = 0;
 	    
 		while(reg_imovel[i].tipo != 1 && reg_imovel[i].tipo != 2 && reg_imovel[i].tipo != 3 ){
-			printf("\t<<<Cadastro de Imóveis>>>");
+			printf("\t<<<Cadastro de um Novo Imóvel>>>");
 
 			printf("\n\nRegistro Imóvel: %d", i+1);
 
 			printf("\n\n1-Casa ; 2-Apartamento ; 3-Terreno.");
-			printf("\nInforme o Tipo do Imóvel: ");
+			printf("\nInforme um número para Tipo do Imóvel: ");
 			scanf("%d", &reg_imovel[i].tipo);
 			
 			if(reg_imovel[i].tipo != 1 && reg_imovel[i].tipo != 2 && reg_imovel[i].tipo != 3){
@@ -62,6 +64,8 @@ void carregar_registro(struct imoveis reg_imovel[TF]){
 			
 		printf("\n\n\tImóvel %s Cadastrado com Sucesso!!", reg_imovel[i].nome);	
 		printf("\n");
+		
+		reg_imovel[i].status = true;
 	
 		printf("\n1-Sim ; 2-Não.");
 		printf("\nDeseja cadastrar um novo Imóvel ? ");
@@ -71,7 +75,7 @@ void carregar_registro(struct imoveis reg_imovel[TF]){
 			for(j=i+1; j<TF; j++){
 				strcpy(reg_imovel[j].nome, "");
 			}
-		}-
+		}
 		i++;
 	}while(opcao != 2);
 }

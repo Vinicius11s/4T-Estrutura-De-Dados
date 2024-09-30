@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
+#include <stdbool.h>
+
 
 #define TF 3
 
@@ -12,6 +14,7 @@ struct imoveis{
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	bool status;
 };
 
 void alterar_registro(int imovel_escohido, struct imoveis reg_imovel[TF]){
@@ -59,6 +62,7 @@ void listar_alterar(struct imoveis reg_imovel[TF]){
 	while(opcao != 0){
 		system("cls");
 		printf("\t<<<Alterar Imóveis>>>");
+		
 		printf("\n\n\tImóveis Cadastrados:");
 		
 		for(i=0; i<TF; i++){
