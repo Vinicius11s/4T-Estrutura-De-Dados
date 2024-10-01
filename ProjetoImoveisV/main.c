@@ -5,7 +5,18 @@
 #include <windows.h>
 #include <stdbool.h>
 
+#define TF 3
+
 struct imoveis{
+	int tipo;
+	char nome[100];
+	int vagas_garagem;
+	int qtde_banheiros;
+	float valor;
+	bool status;
+};
+
+struct imoveisOff{
 	int tipo;
 	char nome[100];
 	int vagas_garagem;
@@ -18,59 +29,13 @@ void limpaTela(){
 	system("cls");
 }
 
-void consultaRegistros(int *aux, int opcao, struct imoveis reg_imovel[TF]){
-	switch(opcao){
-		case 2:
-			if(*aux == 0){
-				limpaTela();					
-				printf("\t<<<Consulta de Imóveis Cadastrados>>>");
-				printf("\n\nNenhum Imóvel foi Cadastrado.");
-				printf("\n");
-				printf("\n");
-				system("pause");
-			}
-			else
-				listar_imoveis(reg_imovel);	
-		break;
-		case 3:
-			if(*aux == 0){
-				limpaTela();				
-				printf("\t<<<Alterar um Imóvel existente>>>");
-				printf("\n\nNenhum Imóvel foi Cadastrado.");
-				printf("\n");
-				printf("\n");
-				system("pause");
-			}
-			else{
-				listar_imoveis(reg_imovel);	
-				listar_alterar(reg_imovel);
-			}
-		break;
-		case 4:
-			if(*aux == 0){
-				limpaTela();				
-				printf("\t<<<Excluir Registro de um Imóvel>>>");
-				printf("\n\nNenhum Imóvel foi Cadastrado.");
-				printf("\n");
-				printf("\n");
-				system("pause");
-			}
-			else{
-				listar_imoveis_excluir(reg_imovel);	
-				listar_alterar(reg_imovel);
-			}			
-	}
 
-}
-
-void menu(struct imoveis reg_imovel[0]){
+void menu(struct imoveis reg_imovel[TF]){
 	limpaTela();
 	int tamanhoVetor = 0;
-	int *ponteiroTamanho;
-	
 	setlocale(LC_ALL,"portuguese");
 	
-	int aux = 0, opcao = -1; 
+	int opcao = -1, contCadastro = 0;
 	char username[100];
 	DWORD username_len = sizeof(username);
 	GetUserName(username, &username_len);
@@ -93,37 +58,45 @@ void menu(struct imoveis reg_imovel[0]){
 	
 		switch(opcao){
 			case 1:
-				carregar_registro(&ponteiroTamanho, tamanhoVetor, reg_imovel);
-				aux++;
-			break;
+				carregar_registro(reg_imovel);
+				contCadastro++;
+				break;
 			case 2:
-				consultaRegistros(&ponteiroTamanho, opcao, reg_imovel);
-			break;
-			/*
+				if(contCadastro == 0){
+					limpaTela();
+					printf("\t<<<Consulta de Imóveis Cadastrados>>>\n");
+					printf("\nNenhum Imóvel foi Cadastrado.");
+					printf("\n");
+					printf("\n");
+					system("pause");
+				}
+				else{
+					listar_imoveis(contCadastro, reg_imovel);
+				}
+				break;
 			case 3:
-				consultaRegistgros(&aux, opcao, reg_imovel);
-			break;
+				listar_alterar(contCadastro, reg_imovel);
+				break;
 			case 4:
-				consultaRegistgros(&aux, opcao, reg_imovel);	
-			break;*/
+				listar_excluir(contCadastro, reg_imovel);	
+				break;
 			case 0:
 				printf("\nFim!\n");
-			break;
-			
+				break;
 			default:
 				limpaTela();
 				printf("Opção Inválida !!");
 				printf("\n");
 				printf("\n");
-				system("pause");*/
+				system("pause");
 		}		
 	}
 }
 	
-	
 void main() {
 	setlocale(LC_ALL,"portuguese");
-	struct imoveis reg_imovel[0];
-	
+	struct imoveis reg_imovel[TF];
+	/*struct imoveisOff reg_imovel[TF];*/
 	menu(reg_imovel);
+	
 }

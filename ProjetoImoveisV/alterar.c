@@ -35,8 +35,7 @@ void alterar_registro(int imovel_escohido, struct imoveis reg_imovel[TF]){
 				system("pause");	
 				system("cls");
 			}
-		}
-					
+		}	
 		printf("\nInforme o Nome do Imóvel: ");
 		fflush(stdin);
 		gets(reg_imovel[i].nome);
@@ -56,16 +55,16 @@ void alterar_registro(int imovel_escohido, struct imoveis reg_imovel[TF]){
 		
 }
 
-void listar_alterar(struct imoveis reg_imovel[TF]){
-	int i, opcao = -1, imovel_escohido;
+void listar_alterar(int contCadastro, struct imoveis reg_imovel[TF]){
+	int i=0, opcao = -1, imovel_escohido;
 
 	while(opcao != 0){
 		system("cls");
-		printf("\t<<<Alterar Imóveis>>>");
+		printf("\t<<<Alterar um Registro de Imóvel existente>>>");
 		
 		printf("\n\n\tImóveis Cadastrados:");
 		
-		for(i=0; i<TF; i++){
+		for(i=0; i<contCadastro; i++){
 			printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
 		}
 		printf("\n0-Sair");
@@ -74,7 +73,7 @@ void listar_alterar(struct imoveis reg_imovel[TF]){
 		printf("\nInforme o número do Imóvel que deseja alterar: ");
 		scanf("%d", &opcao);
 				
-		if(opcao >0 && opcao <= TF){
+		if(opcao >0 && opcao <= contCadastro){
 			imovel_escohido = opcao - 1;
 			exibir_imovel(imovel_escohido, reg_imovel);
 			alterar_registro(imovel_escohido, reg_imovel);

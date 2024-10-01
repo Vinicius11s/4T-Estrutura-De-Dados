@@ -17,9 +17,6 @@ struct imoveis{
 	bool status;
 };
 	
-
-
-
 void exibir_imovel(int imovel_escohido, struct imoveis reg_imovel[TF]){
 	system("cls");
 	int i=0;
@@ -44,15 +41,15 @@ void exibir_imovel(int imovel_escohido, struct imoveis reg_imovel[TF]){
 	system("pause");
 }
 
-void listar_imoveis(struct imoveis reg_imovel[TF]){
-	int i, opcao = -1, imovel_escohido;
-
+void listar_imoveis(int contCadastro, struct imoveis reg_imovel[TF]){
+	int opcao = -1, imovel_escohido;
+	int i=0;
 	while(opcao != 0){
 		system("cls");
 		printf("\t<<<Consultar Imóveis>>>");
 		printf("\n\n\tImóveis Cadastrados:");
 		
-		for(i=0; i<TF; i++){
+		for(i=0; i<contCadastro ; i++){
 			printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
 		}
 		printf("\n0-Sair");

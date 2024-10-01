@@ -6,7 +6,6 @@
 #include <stdbool.h>
 
 #define TF 3
-
 struct imoveis{
 	int tipo;
 	char nome[100];
@@ -16,13 +15,30 @@ struct imoveis{
 	bool status;
 };
 
-void ordenarAtivos(struct imoveis reg_imovel[TF]){
-	
-	
-}
+struct imoveisCopia{
+	int tipo;
+	char nome[100];
+	int vagas_garagem;
+	int qtde_banheiros;
+	float valor;
+	bool status;
+};
+
+struct imoveisOff{
+	int tipo;
+	char nome[100];
+	int vagas_garagem;
+	int qtde_banheiros;
+	float valor;
+	bool status;
+};
 
 
-void listar_imoveis_excluir(struct imoveis reg_imovel[TF]){
+
+void listar_excluir(int contCadastro, struct imoveis reg_imovel[TF]){
+	struct imoveisCopia reg_imovel[TF];
+	struct imoveisOff reg_imovel[TF];
+
 	int i, opcao = -1, imovel_escohido;
 
 	while(opcao != 0){
@@ -30,7 +46,7 @@ void listar_imoveis_excluir(struct imoveis reg_imovel[TF]){
 		printf("\t<<<Excluir Registro de um Imóvel>>>");
 		printf("\n\n\tImóveis Ativos:");
 		
-			for(i=0; i<TF; i++){
+			for(i=0; i<contCadastro; i++){
 				printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
 			}
 			printf("\n0-Sair");
@@ -41,10 +57,10 @@ void listar_imoveis_excluir(struct imoveis reg_imovel[TF]){
 		
 
 				
-		if(opcao >0 && opcao <= TF){
+		if(opcao >0 && opcao <= contCadastro){
 			imovel_escohido = opcao - 1;
-			reg_imovel[imovel_escohido].status = false;
-			
+			imoveisCopia reg_imovel = imoveis reg_imovel;
+						
 		}	
 		else{
 			printf("O Imóvel escolhido não existe.");

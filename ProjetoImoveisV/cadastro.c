@@ -16,14 +16,11 @@ struct imoveis{
 	bool status;
 };
 
-void carregar_registro(int *ponteiroTamanho, int tamanhoVetor, struct imoveis reg_imovel[tamanhoVetor]){
-	
-	int i=0, j=0, opcao = -1;
-	
+void carregar_registro(struct imoveis reg_imovel[TF]){
+	int opcao = -1;
+	int i = 0;
 	do{
-		tamanhoVetor = tamanhoVetor + 1;
-		*ponteiroTamanho = tamanhoVetor;
-		
+
 		system("cls");
 	    reg_imovel[i].tipo = 0;
 	    
@@ -62,11 +59,13 @@ void carregar_registro(int *ponteiroTamanho, int tamanhoVetor, struct imoveis re
 		printf("\n");
 		
 		reg_imovel[i].status = true;
-	
+		i++;
+		
 		printf("\n1-Sim ; 2-Não.");
 		printf("\nDeseja cadastrar um novo Imóvel ? ");
 		scanf("%d", &opcao);
 
-		i++;
+		
+
 	}while(opcao != 2);
 }
