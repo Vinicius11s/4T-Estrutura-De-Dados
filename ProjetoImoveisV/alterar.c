@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 
-#define TF 3
+#define TF 5
 
 struct imoveis{
 	int tipo;
@@ -64,7 +64,7 @@ void listar_alterar(int contCadastro, struct imoveis reg_imovel[TF]){
 		
 		printf("\n\n\tImóveis Cadastrados:");
 		
-		for(i=0; i<contCadastro; i++){
+		for(i=0; i<contCadastro + 1; i++){
 			printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
 		}
 		printf("\n0-Sair");

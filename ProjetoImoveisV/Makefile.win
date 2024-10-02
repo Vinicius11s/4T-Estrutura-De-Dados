@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o cadastro.o consulta.o alterar.o excluir.o
-LINKOBJ  = main.o cadastro.o consulta.o alterar.o excluir.o
+OBJ      = main.o cadastro.o consulta.o alterar.o excluir.o ativar.o ordenar.o gravarArquivo.o lerArquivo.o excluirArquivoBin.o
+LINKOBJ  = main.o cadastro.o consulta.o alterar.o excluir.o ativar.o ordenar.o gravarArquivo.o lerArquivo.o excluirArquivoBin.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -38,3 +38,18 @@ alterar.o: alterar.c
 
 excluir.o: excluir.c
 	$(CC) -c excluir.c -o excluir.o $(CFLAGS)
+
+ativar.o: ativar.c
+	$(CC) -c ativar.c -o ativar.o $(CFLAGS)
+
+ordenar.o: ordenar.c
+	$(CC) -c ordenar.c -o ordenar.o $(CFLAGS)
+
+gravarArquivo.o: gravarArquivo.c
+	$(CC) -c gravarArquivo.c -o gravarArquivo.o $(CFLAGS)
+
+lerArquivo.o: lerArquivo.c
+	$(CC) -c lerArquivo.c -o lerArquivo.o $(CFLAGS)
+
+excluirArquivoBin.o: excluirArquivoBin.c
+	$(CC) -c excluirArquivoBin.c -o excluirArquivoBin.o $(CFLAGS)

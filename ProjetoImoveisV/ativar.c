@@ -15,24 +15,23 @@ struct imoveis{
 	bool status;
 };
 
-
-void listar_excluir(int contCadastro, struct imoveis reg_imovel[TF]){
+void listar_ativar(int contCadastro, struct imoveis reg_imovel[TF]){
 
 	int i, opcao = -1, imovel_escohido;
 
 	while(opcao != 2){
 		system("cls");
-		printf("\t<<<Excluir Registro de um Imóvel>>>");
-		printf("\n\n\tImóveis Ativos:");
+		printf("\t<<<Ativar Registro de um Imóvel Excluído>>>");
+		printf("\n\n\tImóveis Inativos:");
 		
 			for(i=0; i<contCadastro+1; i++){
-				if(reg_imovel[i].status == true){
+				if(reg_imovel[i].status == false){
 					printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
 				}
 			}
 		
 			printf("\n");
-			printf("\nInforme o número do Imóvel que deseja excluir: ");
+			printf("\nInforme o número do Imóvel que deseja ativar: ");
 			scanf("%d", &imovel_escohido);			
 		
 
@@ -40,12 +39,12 @@ void listar_excluir(int contCadastro, struct imoveis reg_imovel[TF]){
 		if(imovel_escohido >0 && imovel_escohido <= contCadastro){
 			imovel_escohido = imovel_escohido - 1;
 			
-				reg_imovel[imovel_escohido].status = false;
-				printf("\nCadastro %d Excluído com sucesso!", imovel_escohido+1);
+				reg_imovel[imovel_escohido].status = true;
+				printf("\nCadastro %d Ativado com sucesso!", imovel_escohido+1);
 				system("pause");
 			
 			printf("\n\n1-Sim ; 2-Não");
-			printf("\nDeseja excluir outro Registro ?");
+			printf("\nDeseja ativar outro Registro ?");
 			scanf("%d",&opcao);
 		}
 		else{
@@ -53,5 +52,4 @@ void listar_excluir(int contCadastro, struct imoveis reg_imovel[TF]){
 		}
 	}
 }
-
 

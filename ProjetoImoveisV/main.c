@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <stdbool.h>
 
-#define TF 3
+#define TF 5
 
 struct imoveis{
 	int tipo;
@@ -50,6 +50,11 @@ void menu(struct imoveis reg_imovel[TF]){
 		printf("\n2- Consulta de Imóveis Cadastrados.");
 		printf("\n3- Alterar um Registro de Imóvel existente.");
 		printf("\n4- Excluir Registro de um Imóvel.");
+		printf("\n5- Ativar Registro de um Imóvel Excluído.");
+		printf("\n6- Ordenar dados de um vetor.");
+		printf("\n7- Gravar Dados em Arquivo.");
+		printf("\n8- Recuperar Dados da última execução.");
+		printf("\n9- Excluir Arquivo imoveis.bin. por completo");
 
 		printf("\n0- Encerrar o Programa.");
 	
@@ -58,8 +63,7 @@ void menu(struct imoveis reg_imovel[TF]){
 	
 		switch(opcao){
 			case 1:
-				carregar_registro(reg_imovel);
-				contCadastro++;
+				carregar_registro(reg_imovel, &contCadastro);
 				break;
 			case 2:
 				if(contCadastro == 0){
@@ -80,6 +84,21 @@ void menu(struct imoveis reg_imovel[TF]){
 			case 4:
 				listar_excluir(contCadastro, reg_imovel);	
 				break;
+			case 5:
+				listar_ativar(contCadastro, reg_imovel);
+				break;
+			case 6:
+				exibir_campos(contCadastro, reg_imovel);
+				break;	
+			case 7:
+				gravar_arquivo(reg_imovel);
+				break;
+			case 8:
+				ler_arquivo(reg_imovel);
+				break;
+			case 9:
+				excluirArquivo(reg_imovel);
+				break;
 			case 0:
 				printf("\nFim!\n");
 				break;
@@ -96,7 +115,6 @@ void menu(struct imoveis reg_imovel[TF]){
 void main() {
 	setlocale(LC_ALL,"portuguese");
 	struct imoveis reg_imovel[TF];
-	/*struct imoveisOff reg_imovel[TF];*/
 	menu(reg_imovel);
 	
 }

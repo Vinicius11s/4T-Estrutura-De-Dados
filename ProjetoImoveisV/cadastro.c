@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define TF 3	
+#define TF 5
 
 struct imoveis{
 	int tipo;
@@ -16,7 +16,7 @@ struct imoveis{
 	bool status;
 };
 
-void carregar_registro(struct imoveis reg_imovel[TF]){
+void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 	int opcao = -1;
 	int i = 0;
 	do{
@@ -64,8 +64,6 @@ void carregar_registro(struct imoveis reg_imovel[TF]){
 		printf("\n1-Sim ; 2-Não.");
 		printf("\nDeseja cadastrar um novo Imóvel ? ");
 		scanf("%d", &opcao);
-
-		
-
 	}while(opcao != 2);
+	*contCadastro = i;
 }
