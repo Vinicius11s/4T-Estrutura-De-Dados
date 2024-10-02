@@ -49,7 +49,7 @@ void listar_imoveis(int contCadastro, struct imoveis reg_imovel[TF]){
 		printf("\t<<<Consultar Imóveis>>>");
 		printf("\n\n\tImóveis Cadastrados:");
 		
-		for(i=0; i<contCadastro +1 ; i++){
+		for(i=0; i<contCadastro ; i++){
 			if(reg_imovel[i].status ==  true){
 				printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);		
 			}

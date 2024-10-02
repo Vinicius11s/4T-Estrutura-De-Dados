@@ -15,20 +15,24 @@ struct imoveis{
 	float valor;
 	bool status;
 };
-
-struct imoveisOff{
-	int tipo;
-	char nome[100];
-	int vagas_garagem;
-	int qtde_banheiros;
-	float valor;
-	bool status;
-};
-
 void limpaTela(){
 	system("cls");
 }
-
+bool verificaCad(int contCadastro){
+	if(contCadastro == 0){
+		printf("\nNenhum Imóvel foi Cadastrado.");
+		printf("\n");
+		printf("\n");
+		system("pause");
+		return false;		
+	}
+	else{
+		return true;
+	}
+}
+void pularLinha(){
+	printf("\n");
+}
 
 void menu(struct imoveis reg_imovel[TF]){
 	limpaTela();
@@ -64,40 +68,48 @@ void menu(struct imoveis reg_imovel[TF]){
 		switch(opcao){
 			case 1:
 				carregar_registro(reg_imovel, &contCadastro);
-				break;
+			break;
 			case 2:
-				if(contCadastro == 0){
-					limpaTela();
-					printf("\t<<<Consulta de Imóveis Cadastrados>>>\n");
-					printf("\nNenhum Imóvel foi Cadastrado.");
-					printf("\n");
-					printf("\n");
-					system("pause");
-				}
-				else{
-					listar_imoveis(contCadastro, reg_imovel);
-				}
-				break;
+				limpaTela();
+				printf("\t<<<Consulta de Imóveis Cadastrados>>>\n");
+				if (verificaCad(contCadastro))
+					listar_imoveis(contCadastro, reg_imovel);		
+			break;
 			case 3:
-				listar_alterar(contCadastro, reg_imovel);
-				break;
+				limpaTela();
+				printf("\t<<<Alterar um Registro de Imóvel existente>>>\n");
+					if (verificaCad(contCadastro))
+						listar_alterar(contCadastro, reg_imovel);		
+			break;
 			case 4:
-				listar_excluir(contCadastro, reg_imovel);	
+				limpaTela();
+				printf("\t<<<Excluir Registro de um Imóvel>>>\n");
+				if (verificaCad(contCadastro))
+					listar_excluir(contCadastro, reg_imovel);	
 				break;
 			case 5:
-				listar_ativar(contCadastro, reg_imovel);
+				limpaTela();
+				printf("\t<<<Ativar Registro de um Imóvel Excluído>>>\n");
+				if (verificaCad(contCadastro))
+					listar_ativar(contCadastro, reg_imovel);
 				break;
 			case 6:
-				exibir_campos(contCadastro, reg_imovel);
+				limpaTela();
+				printf("\t<<<Ordenar dados de um vetor>>>\n");
+				if (verificaCad(contCadastro))
+					exibir_campos(contCadastro, reg_imovel);
 				break;	
 			case 7:
-				gravar_arquivo(reg_imovel);
+				limpaTela();
+				printf("\t<<<Gravar Dados em Arquivo>>>\n");
+				if (verificaCad(contCadastro))
+				gravar_arquivo(reg_imovel, contCadastro);
 				break;
 			case 8:
-				ler_arquivo(reg_imovel);
+				ler_arquivo(reg_imovel, &contCadastro);
 				break;
 			case 9:
-				excluirArquivo(reg_imovel);
+				excluirArquivo();
 				break;
 			case 0:
 				printf("\nFim!\n");
@@ -105,8 +117,8 @@ void menu(struct imoveis reg_imovel[TF]){
 			default:
 				limpaTela();
 				printf("Opção Inválida !!");
-				printf("\n");
-				printf("\n");
+				pularLinha();
+				pularLinha();
 				system("pause");
 		}		
 	}

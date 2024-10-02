@@ -15,21 +15,19 @@ struct imoveis{
 	bool status;
 };
 
-void excluirArquivo(reg_imovel) {
-
+void excluirArquivo() {
     FILE *arq;
-	int i;
-	
-	system("cls");
-	printf("<<Gravando Registros no Arquivo>>\n\n");
-	arq = fopen("aluno.bin", "wb");
-	fclose(arq);
-	printf("Registros Gravados com Sucesso!!!");
-	system("pause");
-
     
-    
-    
+    system("cls");
+    printf("<<Excluindo Registros do Arquivo>>\n\n");
+    arq = fopen("imoveis.bin", "wb");
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo para exclusão!!!\n");
+    } else {
+        fclose(arq);
+        printf("Registros Excluídos com Sucesso!!!\n");
+    }
+    system("pause");
 }
 
 

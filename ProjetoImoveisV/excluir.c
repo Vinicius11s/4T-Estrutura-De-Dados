@@ -25,7 +25,7 @@ void listar_excluir(int contCadastro, struct imoveis reg_imovel[TF]){
 		printf("\t<<<Excluir Registro de um Imóvel>>>");
 		printf("\n\n\tImóveis Ativos:");
 		
-			for(i=0; i<contCadastro+1; i++){
+			for(i=0; i<contCadastro; i++){
 				if(reg_imovel[i].status == true){
 					printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
 				}
@@ -42,6 +42,7 @@ void listar_excluir(int contCadastro, struct imoveis reg_imovel[TF]){
 			
 				reg_imovel[imovel_escohido].status = false;
 				printf("\nCadastro %d Excluído com sucesso!", imovel_escohido+1);
+				pularLinha();
 				system("pause");
 			
 			printf("\n\n1-Sim ; 2-Não");

@@ -18,10 +18,10 @@ struct imoveis{
 
 void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 	int opcao = -1;
-	int i = 0;
+	int i;
 	do{
-
-		system("cls");
+		i = *contCadastro;
+		limpaTela();
 	    reg_imovel[i].tipo = 0;
 	    
 		while(reg_imovel[i].tipo != 1 && reg_imovel[i].tipo != 2 && reg_imovel[i].tipo != 3 ){
@@ -35,9 +35,10 @@ void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 			
 			if(reg_imovel[i].tipo != 1 && reg_imovel[i].tipo != 2 && reg_imovel[i].tipo != 3){
 				printf("\n\tInforme um valor váldo para Tipo do Imóvel !!");
-				printf("\n\n");
+				pularLinha();
+				pularLinha();
 				system("pause");	
-				system("cls");
+				limpaTela();
 			}
 		}
 					
@@ -56,14 +57,14 @@ void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 		scanf("%f", &reg_imovel[i].valor);
 			
 		printf("\n\n\tImóvel %s Cadastrado com Sucesso!!", reg_imovel[i].nome);	
-		printf("\n");
+		pularLinha();
 		
 		reg_imovel[i].status = true;
-		i++;
-		
+		*contCadastro = *contCadastro + 1;
+
 		printf("\n1-Sim ; 2-Não.");
 		printf("\nDeseja cadastrar um novo Imóvel ? ");
 		scanf("%d", &opcao);
+		
 	}while(opcao != 2);
-	*contCadastro = i;
 }

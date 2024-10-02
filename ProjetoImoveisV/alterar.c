@@ -31,9 +31,9 @@ void alterar_registro(int imovel_escohido, struct imoveis reg_imovel[TF]){
 			
 			if(reg_imovel[i].tipo != 1 && reg_imovel[i].tipo != 2 && reg_imovel[i].tipo != 3){
 				printf("\n\tInforme um valor váldo para Tipo do Imóvel !!");
-				printf("\n\n");
+				printf("\n");
 				system("pause");	
-				system("cls");
+				limpaTela();
 			}
 		}	
 		printf("\nInforme o Nome do Imóvel: ");
@@ -50,8 +50,9 @@ void alterar_registro(int imovel_escohido, struct imoveis reg_imovel[TF]){
 		printf("\nInforme o Valor do Imóvel: ");
 		scanf("%f", &reg_imovel[i].valor);
 			
-		printf("\n\n\tImóvel %s Cadastrado com Sucesso!!", reg_imovel[i].nome);	
+		printf("\n\n\tAlteração concluída com Sucesso!!");	
 		printf("\n");
+		system("pause");
 		
 }
 
@@ -59,12 +60,12 @@ void listar_alterar(int contCadastro, struct imoveis reg_imovel[TF]){
 	int i=0, opcao = -1, imovel_escohido;
 
 	while(opcao != 0){
-		system("cls");
+		limpaTela();
 		printf("\t<<<Alterar um Registro de Imóvel existente>>>");
 		
 		printf("\n\n\tImóveis Cadastrados:");
 		
-		for(i=0; i<contCadastro + 1; i++){
+		for(i=0; i<contCadastro; i++){
 			printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
 		}
 		printf("\n0-Sair");
@@ -79,10 +80,10 @@ void listar_alterar(int contCadastro, struct imoveis reg_imovel[TF]){
 			alterar_registro(imovel_escohido, reg_imovel);
 		}	
 		else{
-			printf("O Imóvel escolhido não existe.");
-			system("pause");
+			if(opcao != 0){
+				printf("O Imóvel escolhido não existe.");
+				system("pause");			
+			}
 		}
 	}
 }
-
-
