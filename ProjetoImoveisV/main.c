@@ -34,6 +34,7 @@ void pularLinha(){
 	printf("\n");
 }
 
+
 void menu(struct imoveis reg_imovel[TF]){
 	limpaTela();
 	int tamanhoVetor = 0;

@@ -49,15 +49,23 @@ void exibir_campos(int contCadastro, struct imoveis reg_imovel[TF]){
 	while(campoEscolhido != 0){
 		system("cls");
 		printf("\t<<<Ordenar dados de um vetor>>>");
+		printf("\nImóveis Dísponiveis para Ordenação:\n");
 		
-		printf("\n\n1- Quantidade de vagas de garagem: ");
+		for(i=0; i<contCadastro ; i++){
+			if(reg_imovel[i].status == true){
+				printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);		
+			}
+		}
+		printf("\n\nOrdenar Imóveis por: ");		
+		printf("\n1- Quantidade de vagas de garagem: ");
 		printf("\n2- Quantidade de banheiros: ");	
 		printf("\n0- Sair");
-		printf("\nOrdenar Imóveis por: ");
+		printf("\nEscolha um número e pressione ENTER: ");
 		scanf("%d", &campoEscolhido);
 		
 		 if(campoEscolhido == 1 || campoEscolhido == 2) {
 			bubbleSort(reg_imovel, contCadastro, campoEscolhido);
+			limpaTela();
             printf("\nImóveis ordenados com sucesso!\n");
             
             for (i = 0; i < contCadastro; i++) {
@@ -65,11 +73,12 @@ void exibir_campos(int contCadastro, struct imoveis reg_imovel[TF]){
                 printf("\nVagas de garagem: %d", reg_imovel[i].vagas_garagem);
                 printf("\nQuantidade de banheiros: %d\n", reg_imovel[i].qtde_banheiros);
             }
+            system("pause");
         }
 		else{
 		 	if (campoEscolhido != 0) {
             printf("\nOpção inválida.\n");			
 			}
-		}system("pause");
+		}
 	}
 }	                

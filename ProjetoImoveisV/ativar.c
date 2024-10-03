@@ -16,40 +16,60 @@ struct imoveis{
 };
 
 void listar_ativar(int contCadastro, struct imoveis reg_imovel[TF]){
-
-	int i, opcao = -1, imovel_escohido;
-
-	while(opcao != 2){
-		system("cls");
-		printf("\t<<<Ativar Registro de um Imóvel Excluído>>>");
+	int cont = 0, i, opcao = -1, imovel_escohido;
+	int outroRegistro = - 1;
+	
+	while(opcao != 0 && outroRegistro != 0){
+		limpaTela();
+		printf("\t<<<Ativar Registro de um Imóvel Inativo>>>");
 		printf("\n\n\tImóveis Inativos:");
 		
-			for(i=0; i<contCadastro+1; i++){
+			for(i=0; i<contCadastro; i++){
 				if(reg_imovel[i].status == false){
 					printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);
+					cont++;
 				}
 			}
-		
+			printf("\n0- Sair");
 			printf("\n");
-			printf("\nInforme o número do Imóvel que deseja ativar: ");
-			scanf("%d", &imovel_escohido);			
-		
-
-				
-		if(imovel_escohido >0 && imovel_escohido <= contCadastro){
-			imovel_escohido = imovel_escohido - 1;
-			
-				reg_imovel[imovel_escohido].status = true;
-				printf("\nCadastro %d Ativado com sucesso!", imovel_escohido+1);
-				system("pause");
-			
-			printf("\n\n1-Sim ; 2-Não");
-			printf("\nDeseja ativar outro Registro ?");
-			scanf("%d",&opcao);
+			printf("\nInforme o número do Imóvel que deseja Ativar: ");
+			scanf("%d", &opcao);			
+			imovel_escohido = opcao - 1;
+						
+		if(opcao > contCadastro){
+			printf("\nOpção Inexistente...");
+			Sleep(2000);
 		}
 		else{
-			printf("\nOpção Inexistente...");
+			if(opcao != 0){
+				if(reg_imovel[imovel_escohido].status == true){
+					printf("\t<<<Ativar Registro de um Imóvel Inativo>>>");
+					printf("\n\nO Cadastro já esta Ativo.");
+					Sleep(2000);
+				}
+				else{
+					reg_imovel[imovel_escohido].status = true;
+					printf("\nCadastro %d Ativo com sucesso!", imovel_escohido+1);
+					pularLinha();
+					pularLinha();			
+					system("pause");
+					cont--;				
+				
+					printf("\n\n0-Não ; 1-Sim");
+					printf("\nDeseja ativar outro Registro ?");
+					scanf("%d",&outroRegistro);		
+				}
+				if(outroRegistro == 1 && cont == 0){
+					limpaTela();
+					printf("Todos os Cadastros foram ativos");
+					pularLinha();
+					pularLinha();
+					system("pause");
+					break;
+				}
+			}
 		}
 	}
 }
+
 
