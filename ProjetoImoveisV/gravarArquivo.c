@@ -5,29 +5,35 @@
 #include <conio.h>
 #include <stdbool.h>
 
-#define TF 5
+#define TF 10
+
 struct imoveis{
 	int tipo;
 	char nome[100];
+	float area_m2;
+	int qtde_quartos;
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	char dataCadastro[11];
 	bool status;
 };
 
 
-void gravar_arquivo(struct imoveis reg_imovel[], int contCadastro) {
+void gravar_arquivo(struct imoveis reg_imovel[TF], int contCadastro) {
     FILE *arq;
-    system("cls");
-    printf("<<Gravando Registros no Arquivo>>\n\n");
+    limpaTela();
+    printf("\t<<Gravando Registros no Arquivo...>>");
     arq = fopen("imoveis.bin", "wb");
     if(arq == NULL) {
         printf("Erro ao abrir o arquivo!!!");
     } else {
         fwrite(reg_imovel, sizeof(struct imoveis), contCadastro, arq);
         fclose(arq);
-        printf("Registros Gravados com Sucesso!!!");
+        printf("\n\nRegistros Gravados com Sucesso!!!");
     }
+    pularLinha();
+    pularLinha();
     system("pause");
 }
 

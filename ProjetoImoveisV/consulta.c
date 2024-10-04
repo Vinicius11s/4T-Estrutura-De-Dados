@@ -6,21 +6,24 @@
 #include <stdbool.h>
 
 
-#define TF 5
+#define TF 10
 
 struct imoveis{
 	int tipo;
 	char nome[100];
+	float area_m2;
+	int qtde_quartos;
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	char dataCadastro[11];
 	bool status;
 };
 	
 void exibir_imovel(int imovel_escohido, struct imoveis reg_imovel[TF]){
-	system("cls");
+	limpaTela();
 	int i=0;
-	printf("\n\nRegistro de Imóvel %d", imovel_escohido + 1);
+	printf("\n\nRegistro de Imóvel %d: ", imovel_escohido + 1);
 	
 	if(reg_imovel[imovel_escohido].tipo == 1){
 		printf("\n\nImóvel do Tipo: Casa");
@@ -33,11 +36,15 @@ void exibir_imovel(int imovel_escohido, struct imoveis reg_imovel[TF]){
 	}				
 					
 	printf("\nNome: %s", reg_imovel[imovel_escohido].nome);
+	printf("\nÁrea do Imovel %0.2f m²", reg_imovel[imovel_escohido].area_m2);
+	printf("\nQuantidade de Quartos: %d", reg_imovel[imovel_escohido].qtde_quartos);
 	printf("\nVagas de Garagem: %d", reg_imovel[imovel_escohido].vagas_garagem);	
 	printf("\nQuantidade de Banheiros: %d", reg_imovel[imovel_escohido].qtde_banheiros);
 	printf("\nValor: %0.2f", reg_imovel[imovel_escohido].valor);
-	printf("\n");
-	printf("\n");
+	printf("\nData de Cadastro: %s", reg_imovel[imovel_escohido].dataCadastro);
+
+	pularLinha();
+	pularLinha();
 	system("pause");
 }
 
@@ -45,7 +52,7 @@ void listar_imoveis(int contCadastro, struct imoveis reg_imovel[TF]){
 	int opcao = -1, imovel_escohido;
 	int i=0;
 	while(opcao != 0){
-		system("cls");
+		limpaTela();
 		printf("\t<<<Consultar Imóveis>>>");
 		printf("\n\n\tImóveis Cadastrados:");
 		
@@ -56,7 +63,7 @@ void listar_imoveis(int contCadastro, struct imoveis reg_imovel[TF]){
 		}
 		printf("\n0-Sair");
 	
-		printf("\n");
+		pularLinha();
 		printf("\nInforme o número do Imóvel que deseja consultar: ");
 		scanf("%d", &opcao);
 				

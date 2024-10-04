@@ -5,21 +5,25 @@
 #include <conio.h>
 #include <stdbool.h>
 
-#define TF 5
+#define TF 10
+
 struct imoveis{
 	int tipo;
 	char nome[100];
+	float area_m2;
+	int qtde_quartos;
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	char dataCadastro[11];
 	bool status;
 };
 
-
-void ler_arquivo(struct imoveis reg_imovel[], int *contCadastro) {
+void ler_arquivo(struct imoveis reg_imovel[TF], int *contCadastro) {
     int i = 0;
     FILE *arq;
-    printf("<<Lendo Arquivo de Registros>>\n\n");
+    limpaTela();
+    printf("\t<<Lendo Arquivo de Registros...>>");
     arq = fopen("imoveis.bin", "rb");
     if (arq == NULL) {
         printf("Erro ao abrir o arquivo!!!");
@@ -27,11 +31,11 @@ void ler_arquivo(struct imoveis reg_imovel[], int *contCadastro) {
         while(fread(&reg_imovel[i], sizeof(struct imoveis), 1, arq) > 0) {
             i++;
         }
-        *contCadastro = i;  // Atualiza o contador de registros
+        *contCadastro = i; 
         fclose(arq);
-        printf("Registros Lidos com Sucesso!!!");
-        printf("\n");
-        printf("\n");
+        printf("\n\nRegistros Lidos com Sucesso!!!");
+        pularLinha();
+        pularLinha();
         system("pause");
     }
 }

@@ -5,17 +5,19 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define TF 5
+#define TF 10
 
 struct imoveis{
 	int tipo;
 	char nome[100];
+	float area_m2;
+	int qtde_quartos;
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	char dataCadastro[11];
 	bool status;
 };
-
 void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 	int opcao = -1;
 	int i;
@@ -46,15 +48,25 @@ void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 		fflush(stdin);
 		gets(reg_imovel[i].nome);
 		
+		printf("\nInforme a Área do Imóvel em metros quadrados: ");
+		scanf("%f", &reg_imovel[i].area_m2);			
+
+		printf("\nInforme a quantidade de quartos: ");
+		scanf("%d", &reg_imovel[i].qtde_quartos);		
 		
-		printf("\nInforme a quantidade de vagas de garagem do Imóvel: ");
+		printf("\nInforme a quantidade de vagas de garagem: ");
 		scanf("%d", &reg_imovel[i].vagas_garagem);
 		
-		printf("\nInforme a quantidade de banheiros do Imóvel: ");
+		printf("\nInforme a quantidade de banheiros: ");
 		scanf("%d", &reg_imovel[i].qtde_banheiros);
 		
-		printf("\nInforme o Valor do Imóvel: ");
+		printf("\nInforme o Valor: ");
 		scanf("%f", &reg_imovel[i].valor);
+
+		printf("\nInforme a data de Cadastro.");
+		printf("\ndd/mm/yyyy: ");
+		fflush(stdin);
+		gets(reg_imovel[i].dataCadastro);
 			
 		printf("\n\n\tImóvel %s Cadastrado com Sucesso!!", reg_imovel[i].nome);	
 		pularLinha();

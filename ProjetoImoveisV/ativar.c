@@ -5,13 +5,17 @@
 #include <conio.h>
 #include <stdbool.h>
 
-#define TF 5
+#define TF 10
+
 struct imoveis{
 	int tipo;
 	char nome[100];
+	float area_m2;
+	int qtde_quartos;
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	char dataCadastro[11];
 	bool status;
 };
 

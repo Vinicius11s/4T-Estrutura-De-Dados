@@ -5,14 +5,17 @@
 #include <windows.h>
 #include <stdbool.h>
 
-#define TF 5
+#define TF 10
 
 struct imoveis{
 	int tipo;
 	char nome[100];
+	float area_m2;
+	int qtde_quartos;
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	char dataCadastro[11];
 	bool status;
 };
 void limpaTela(){
@@ -36,11 +39,14 @@ void pularLinha(){
 
 
 void menu(struct imoveis reg_imovel[TF]){
+	int opcao = -1, contCadastro = 0;
+	bool arquivoExcluido = false;
+	ler_arquivo(reg_imovel, &contCadastro);
+	
 	limpaTela();
 	int tamanhoVetor = 0;
 	setlocale(LC_ALL,"portuguese");
 	
-	int opcao = -1, contCadastro = 0;
 	char username[100];
 	DWORD username_len = sizeof(username);
 	GetUserName(username, &username_len);
@@ -111,6 +117,7 @@ void menu(struct imoveis reg_imovel[TF]){
 				break;
 			case 9:
 				excluirArquivo();
+				arquivoExcluido = true;
 				break;
 			case 0:
 				printf("\nFim!\n");
@@ -123,11 +130,14 @@ void menu(struct imoveis reg_imovel[TF]){
 				system("pause");
 		}		
 	}
+	if(arquivoExcluido == false){
+		gravar_arquivo(reg_imovel, contCadastro);		
+	}
 }
 	
 void main() {
 	setlocale(LC_ALL,"portuguese");
 	struct imoveis reg_imovel[TF];
 	menu(reg_imovel);
-	
+
 }

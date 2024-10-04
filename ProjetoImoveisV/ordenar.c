@@ -5,13 +5,17 @@
 #include <conio.h>
 #include <stdbool.h>
 
-#define TF 5
+#define TF 10
+
 struct imoveis{
 	int tipo;
 	char nome[100];
+	float area_m2;
+	int qtde_quartos;
 	int vagas_garagem;
 	int qtde_banheiros;
 	float valor;
+	char dataCadastro[11];
 	bool status;
 };
 
@@ -49,14 +53,14 @@ void exibir_campos(int contCadastro, struct imoveis reg_imovel[TF]){
 	while(campoEscolhido != 0){
 		system("cls");
 		printf("\t<<<Ordenar dados de um vetor>>>");
-		printf("\nImóveis Dísponiveis para Ordenação:\n");
+		printf("\n\nImóveis Dísponiveis para Ordenação:");
 		
 		for(i=0; i<contCadastro ; i++){
 			if(reg_imovel[i].status == true){
 				printf("\nImovel %d: %s", i+1, reg_imovel[i].nome);		
 			}
 		}
-		printf("\n\nOrdenar Imóveis por: ");		
+		printf("\n\n\nOrdenar Imóveis por: ");		
 		printf("\n1- Quantidade de vagas de garagem: ");
 		printf("\n2- Quantidade de banheiros: ");	
 		printf("\n0- Sair");
