@@ -11,6 +11,7 @@
 struct imoveis{
 	int tipo;
 	char nome[100];
+	char endereco[200];
 	float area_m2;
 	int qtde_quartos;
 	int vagas_garagem;
@@ -36,21 +37,20 @@ void exibir_imovel(int imovel_escohido, struct imoveis reg_imovel[TF]){
 	}				
 					
 	printf("\nNome: %s", reg_imovel[imovel_escohido].nome);
+	printf("\nEndereço: %s", reg_imovel[imovel_escohido].endereco);	
 	printf("\nÁrea do Imovel %0.2f m²", reg_imovel[imovel_escohido].area_m2);
 	printf("\nQuantidade de Quartos: %d", reg_imovel[imovel_escohido].qtde_quartos);
 	printf("\nVagas de Garagem: %d", reg_imovel[imovel_escohido].vagas_garagem);	
 	printf("\nQuantidade de Banheiros: %d", reg_imovel[imovel_escohido].qtde_banheiros);
 	printf("\nValor: %0.2f", reg_imovel[imovel_escohido].valor);
 	printf("\nData de Cadastro: %s", reg_imovel[imovel_escohido].dataCadastro);
-
 	pularLinha();
 	pularLinha();
 	system("pause");
 }
 
 void listar_imoveis(int contCadastro, struct imoveis reg_imovel[TF]){
-	int opcao = -1, imovel_escohido;
-	int i=0;
+	int opcao = -1, imovel_escohido, i=0;
 	while(opcao != 0){
 		limpaTela();
 		printf("\t<<<Consultar Imóveis>>>");
@@ -62,17 +62,22 @@ void listar_imoveis(int contCadastro, struct imoveis reg_imovel[TF]){
 			}
 		}
 		printf("\n0-Sair");
-	
 		pularLinha();
+		
 		printf("\nInforme o número do Imóvel que deseja consultar: ");
 		scanf("%d", &opcao);
-				
-		if(opcao >0 && opcao <= TF){
-			imovel_escohido = opcao - 1;
-			exibir_imovel(imovel_escohido, reg_imovel);
-		}	
+		if(opcao == 0){
+			break;
+		}		
 		else{
-			printf("O Imóvel escolhido não existe.");
+			if(opcao >0 && opcao <= contCadastro){
+				imovel_escohido = opcao - 1;
+				exibir_imovel(imovel_escohido, reg_imovel);
+			}
+			else{
+				printf("O Imóvel escolhido não existe.");
+				Sleep(2000);		
+			}		
 		}
 	}
 }

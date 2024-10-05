@@ -10,6 +10,7 @@
 struct imoveis{
 	int tipo;
 	char nome[100];
+	char endereco[200];
 	float area_m2;
 	int qtde_quartos;
 	int vagas_garagem;

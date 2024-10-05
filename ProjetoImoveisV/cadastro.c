@@ -10,6 +10,7 @@
 struct imoveis{
 	int tipo;
 	char nome[100];
+	char endereco[200];
 	float area_m2;
 	int qtde_quartos;
 	int vagas_garagem;
@@ -33,8 +34,7 @@ void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 
 			printf("\n\n1-Casa ; 2-Apartamento ; 3-Terreno.");
 			printf("\nInforme um número para Tipo do Imóvel: ");
-			scanf("%d", &reg_imovel[i].tipo);
-			
+			scanf("%d", &reg_imovel[i].tipo);			
 			if(reg_imovel[i].tipo != 1 && reg_imovel[i].tipo != 2 && reg_imovel[i].tipo != 3){
 				printf("\n\tInforme um valor váldo para Tipo do Imóvel !!");
 				pularLinha();
@@ -47,6 +47,10 @@ void carregar_registro(struct imoveis reg_imovel[TF], int *contCadastro){
 		printf("\nInforme o Nome do Imóvel: ");
 		fflush(stdin);
 		gets(reg_imovel[i].nome);
+		
+		printf("\nInforme o endereço do Imóvel: ");
+		fflush(stdin);
+		gets(reg_imovel[i].endereco);	
 		
 		printf("\nInforme a Área do Imóvel em metros quadrados: ");
 		scanf("%f", &reg_imovel[i].area_m2);			

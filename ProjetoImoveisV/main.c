@@ -10,6 +10,7 @@
 struct imoveis{
 	int tipo;
 	char nome[100];
+	char endereco[200];
 	float area_m2;
 	int qtde_quartos;
 	int vagas_garagem;
@@ -39,13 +40,11 @@ void pularLinha(){
 
 
 void menu(struct imoveis reg_imovel[TF]){
-	int opcao = -1, contCadastro = 0;
+	int opcao = -1, contCadastro = 0, tamanhoVetor = 0;
 	bool arquivoExcluido = false;
-	ler_arquivo(reg_imovel, &contCadastro);
 	
+	ler_arquivo(reg_imovel, &contCadastro);
 	limpaTela();
-	int tamanhoVetor = 0;
-	setlocale(LC_ALL,"portuguese");
 	
 	char username[100];
 	DWORD username_len = sizeof(username);
@@ -65,8 +64,7 @@ void menu(struct imoveis reg_imovel[TF]){
 		printf("\n6- Ordenar dados de um vetor.");
 		printf("\n7- Gravar Dados em Arquivo.");
 		printf("\n8- Recuperar Dados da última execução.");
-		printf("\n9- Excluir Arquivo imoveis.bin. por completo");
-
+		printf("\n9- Excluir todos Registros em Arquivo.");
 		printf("\n0- Encerrar o Programa.");
 	
 		printf("\n\nEscolha um número e pressione ENTER: ");
