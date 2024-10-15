@@ -26,13 +26,11 @@ int pesquisarElemento(Lista *lista, int valor) {
     if (listaVazia(lista))
         return 0;
     else {
-
         Lista* pont;
         for (pont = lista; pont != NULL; pont = pont->prox) {
             if (pont->valor == valor)
                 return 1;
         }
-
         return 0; //se não achar
     }
 
@@ -58,39 +56,47 @@ int listaVazia(Lista *lista) {
 void localizarElementoEscolhido(Lista *lista){
 	int elemento, pont;
 	int i=0;
-	printf("\n\nInforme o elemento que você deseja Localizar na Lista: ");
-	scanf("%d", &elemento);
 	
-	if(pesquisarElemento(lista, elemento) == 1){
-		printf("\nO elemento foi Localizado com sucesso!\n");
-		Lista *pont;
-		
-        for (pont = lista; pont != NULL; pont = pont->prox){
-        	if(pont->valor == elemento){
-        		printf("[%d] -> ", pont->valor);	
-			}
-			else{
-				printf("%d -> ", pont->valor);	
-			}
-			i++;
-		}
-		printf("\n\nElemento encontrado na posição: %d", i);
+	if(listaVazia(lista) == 1){
+		printf("\n\nA Lista está vazia\n");
 		pularLinha();
-		pularLinha();
-		system("pause"); 
+		system("pause");
 	}
 	else{
-		printf("\nO elemento informado não existe na Lista.");
-		pularLinha();
-		pularLinha();
-		system("pause"); 
+		printf("\n\nInforme o elemento que você deseja Localizar na Lista: ");
+		scanf("%d", &elemento);
+	
+		if(pesquisarElemento(lista, elemento) == 1){
+			printf("\nO elemento foi Localizado com sucesso!\n");
+			Lista *pont;
+		
+        	for (pont = lista; pont != NULL; pont = pont->prox){
+        		if(pont->valor == elemento){
+        		printf("[%d] -> ", pont->valor);	
+				}
+				else{
+					printf("%d -> ", pont->valor);	
+				}
+				i++;
+			}
+			printf("\n\nElemento encontrado na posição: %d", i);
+			pularLinha();
+			pularLinha();
+			system("pause"); 
+		}
+		else{
+			printf("\nO elemento informado não existe na Lista.");
+			pularLinha();
+			pularLinha();
+			system("pause"); 
+		}		
 	}
 }
 
 void exibirLista(Lista *lista) {
 
     if (listaVazia(lista))
-        printf("Lista vazia");
+        printf("\nLista vazia");
     else {
         Lista *pont;
         printf("\nLista Atual:\n");
@@ -167,6 +173,12 @@ Lista* removerQualquerNo (Lista *lista, int valor) {
 }
 
 Lista* excluirElemento(Lista *lista, int caso){
+	if(listaVazia(lista) == 1){
+		printf("\n\nA Lista está vazia.\n");
+		pularLinha();
+		system("pause");
+		return lista;
+	}
 	int valorExcluido;
 	pularLinha();
 	exibirLista(lista);
@@ -179,11 +191,12 @@ Lista* excluirElemento(Lista *lista, int caso){
 				lista = removerQualquerNo(lista, valorExcluido);
 				pularLinha();
 				return lista;
-		}
-		else{
-			printf("O valor informardo não existe na Lista.");
-		}
-		return lista;		
+			}
+			else{
+				printf("\nO valor informardo não existe na Lista.");
+				sleep(2);
+				return NULL;
+			}
 	}
 	else{
 		printf("\nInforme o elemento que deseja excluir da Lista: ");
@@ -192,12 +205,18 @@ Lista* excluirElemento(Lista *lista, int caso){
 		if(pesquisarElemento(lista, valorExcluido) == 1){
 			lista = removerQualquerNo(lista, valorExcluido);
 			pularLinha();
+			printf("Exclusão concluída com sucesso!!");
+			sleep(2);
+			pularLinha();
+			exibirLista(lista);
+			pularLinha();
+			system("pause");
 			return lista;
-	}
-	else{
-		printf("O valor informardo não existe na Lista.");
-	}
-	return lista;
+		}
+		else{
+			printf("O valor informardo não existe na Lista.");
+			return NULL;
+		}
 	}
 }
 
@@ -232,82 +251,105 @@ Lista* inserirNoFinalLista (Lista* lista, int valor) {
 }
 
 Lista* inserirNoOrdenado(Lista *lista, int valor, int caso) {
-    int opcao = 0;
+	int opcao = 0;
 
-    while (opcao != 2) {
-        if (lista == NULL) {
-            lista = inserirNoInicioLista(lista, valor);
-        } else if (lista->prox == NULL) {
+    if (lista == NULL) {
+        lista = inserirNoInicioLista(lista, valor);
+    } else if (lista->prox == NULL) {
             if (lista->valor < valor)
                 lista = inserirNoFinalLista(lista, valor);
-            else
-                lista = inserirNoInicioLista(lista, valor);
-        } else {
-            Lista *no_atual, *no_anterior = NULL;
-            int inserido = 0;
+        else
+            lista = inserirNoInicioLista(lista, valor);
+    } else {
+        Lista *no_atual, *no_anterior = NULL;
+        int inserido = 0;
 
-            for (no_atual = lista; no_atual != NULL; no_anterior = no_atual, no_atual = no_atual->prox) {
-                if (no_atual->valor > valor) {
-                    if (no_atual == lista) {
-                        lista = inserirNoInicioLista(lista, valor);
-                    } else {
-                        Lista *novo_no = (Lista*)malloc(sizeof(Lista));
-                        novo_no->valor = valor;
-                        novo_no->prox = no_atual;
-                        no_anterior->prox = novo_no;
-                    }
-                    inserido = 1;
-                    break;
+        for (no_atual = lista; no_atual != NULL; no_anterior = no_atual, no_atual = no_atual->prox) {
+            if (no_atual->valor > valor) {
+                if (no_atual == lista) {
+                    lista = inserirNoInicioLista(lista, valor);
+                } else {
+                    Lista *novo_no = (Lista*)malloc(sizeof(Lista));
+                    novo_no->valor = valor;
+                    novo_no->prox = no_atual;
+                    no_anterior->prox = novo_no;
                 }
-            }
-            if (!inserido) {
-                lista = inserirNoFinalLista(lista, valor);
+                inserido = 1;
+                break;
             }
         }
-        if(caso == 1){
-        	printf("\nElemento adicionado com Sucesso!");
-        	exibirLista(lista);
-        	pularLinha();
-        	pularLinha();
-        	system("pause");
-        	printf("\nVocê deseja inserir mais elementos à lista?");
-        	printf("\n1- Sim");
-        	printf("\n2- Não");
-        	printf("\nEscolha um número e digite ENTER: ");
-        	scanf("%d", &opcao);
-
-        	if (opcao == 1){
-        		limpaTela();
-        		printf("\t<<<Inserir elemento de forma ordenada.>>>");
-            	printf("\n\nInforme o valor que deseja inserir: ");
-            	scanf("%d", &valor);
-        	}       	
-		}
-		else if(caso == 2){
-			printf("\nAlteração Concluída com sucesso!");
-        	exibirLista(lista);
-        	pularLinha();
-        	pularLinha();
-        	system("pause");	
-			return lista;			
-		}
+        if (!inserido) {
+            lista = inserirNoFinalLista(lista, valor);
+        }
     }
+    if(caso == 1){
+        printf("\nElemento adicionado com Sucesso!");
+        pularLinha();
+		exibirLista(lista);
+        pularLinha();
+        system("pause");
+        limpaTela();
+        do {
+            limpaTela();
+            printf("\t<<<Opção Escolhida: Inserir elemento de forma ordenada.>>>");
+            printf("\n\nVocê deseja inserir mais elementos à lista?");
+            printf("\n1- Sim");
+            printf("\n2- Não");
+            printf("\nEscolha um número e digite ENTER: ");
+            scanf("%d", &opcao);
+
+            if (opcao == 1) {
+                printf("\nInforme o valor que deseja inserir: ");
+                scanf("%d", &valor);
+                // Apenas chama a função de inserção sem a recursão
+                if(pesquisarElemento(lista, valor) == 0){
+					lista = inserirNoOrdenado(lista, valor, 0);
+					exibirLista(lista);
+               	 	pularLinha();
+                	system("pause");
+				}
+				else{
+					printf("\nO Elemento já existe na Lista.");
+					sleep(2);
+				}
+            } else if (opcao != 2) {
+                printf("\nInforme uma opção válida.");
+                sleep(2);
+            }
+        } while (opcao != 2);  // Continua até o usuário escolher "Não" (2)
+    }
+					
+		if(caso == 2){
+			printf("\nAlteração Concluída com sucesso!");
+	        exibirLista(lista);
+	        pularLinha();
+	        system("pause");	
+	        pularLinha();
+			return lista;				
+		}   	 
+	
     return lista;
 }
 
-Lista* leNovoValor(Lista *lista){
-	int valorNovo;
-	
-	if(excluirElemento(lista, 2)){
-		printf("Informe o novo valor que deseja adicionar a Lista: ");
-		scanf("%d", &valorNovo);
-		lista = inserirNoOrdenado(lista, valorNovo,2);
+Lista* carregaNovoValor(Lista *lista) {
+	if(listaVazia(lista) == 1){
+		printf("\n\nA Lista está vazia.\n");
+		pularLinha();
+		system("pause");
+		return lista;
 	}
-	else{
-		printf("Não foi possível excluir o valor.\n");
-		sleep(2);
-	}
-	return lista;
+    int valorNovo;
+    Lista *novaLista = excluirElemento(lista, 2);
+
+    if (novaLista != NULL) {
+        printf("Informe o novo valor que deseja adicionar à Lista: ");
+        scanf("%d", &valorNovo);
+        lista = inserirNoOrdenado(novaLista, valorNovo, 2);
+    } else {
+        printf("\nNão foi possível excluir o valor.\n");
+        sleep(2);
+    }
+    return lista;
 }
 
 int totalElementosLista(Lista *lista) {
@@ -327,19 +369,23 @@ int totalElementosLista(Lista *lista) {
 Lista* QtdeElementos(Lista *lista){
 	int totalelementos = 0;
 	totalelementos = totalElementosLista(lista);
-	if (listaVazia(lista))
-        printf("Lista vazia");
-    else {
-        Lista *pont;
+	if (listaVazia(lista) == 1){
+		printf("\n\na Lista está vazia.\n");	
+		pularLinha();
+		system("pause");
+	} 
+    else
+	{
+    	Lista *pont;
         printf("\nLista Atual:\n");
-        for (pont = lista; pont != NULL; pont = pont->prox)
-            printf("[%d] -> ", pont->valor);
+        for (pont = lista; pont != NULL; pont = pont->prox){
+        	printf("[%d] -> ", pont->valor);
+		}
+     	printf("\n\nA Lista atual contém: %d Elementos\n", totalelementos);
+		pularLinha();
+		pularLinha();
+		system("pause");       
     }
-	
-	printf("\n\nA Lista atual contém: %d Elementos\n", totalelementos);
-	pularLinha();
-	pularLinha();
-	system("pause");
 }
 
 void menu(){
@@ -375,17 +421,23 @@ void menu(){
 				limpaTela();
 				printf("\t<<<Opcão escolhida: Inserir elemento de forma ordenada.>>>");
 				elementoInserir = carregaInserir(elementoInserir);
-				lista1 = inserirNoOrdenado(lista1, elementoInserir,1);
+				if(pesquisarElemento(lista1, elementoInserir) == 0){
+					lista1 = inserirNoOrdenado(lista1, elementoInserir,1);	
+				}
+				else{
+					printf("\nO Elemento já existe na Lista.");
+					sleep(2);
+				}
 				break;
 			case 2:
 				limpaTela();
 				printf("\t<<<Opcão escolhida: Alterar Elemento>>>");
-				leNovoValor(lista1);		
+				lista1 = carregaNovoValor(lista1);		
 			break;
 			case 3:
 				limpaTela();
 				printf("\t<<<Opcão escolhida: Excluir Elemento>>>");
-				excluirElemento(lista1,3);
+				lista1 = excluirElemento(lista1,3);
 				limpaTela();
 			break;
 			case 4:
@@ -401,9 +453,8 @@ void menu(){
 			case 0:
 				break;
 			default:
-				limpaTela();
-				printf("Opção Inválida !!");
 				pularLinha();
+				printf("Opção Inválida.");
 				pularLinha();
 				system("pause");
 		}		
