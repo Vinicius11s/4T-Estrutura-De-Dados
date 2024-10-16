@@ -182,41 +182,47 @@ Lista* excluirElemento(Lista *lista, int caso){
 	int valorExcluido;
 	pularLinha();
 	exibirLista(lista);
+	int aux = -1;
 	
-	if(caso == 2){
-		printf("\nInforme o elemento que deseja alterar na Lista: ");
-		scanf("%d", &valorExcluido);
+		if(caso == 2){
+			do{
+				printf("\nInforme o elemento que deseja alterar na Lista: ");
+				scanf("%d", &valorExcluido);
+				
+				if(pesquisarElemento(lista, valorExcluido) == 1){
+					lista = removerQualquerNo(lista, valorExcluido);
+					pularLinha();
+					aux++;
+					return lista;
+				}
+				else{
+					printf("\nO valor informardo não existe na Lista.");
+					sleep(2);
+				}
+		}while(aux != 0);		
+	}
+	else{
+		do{
+			printf("\nInforme o elemento que deseja excluir da Lista: ");
+			scanf("%d", &valorExcluido);
 		
 			if(pesquisarElemento(lista, valorExcluido) == 1){
 				lista = removerQualquerNo(lista, valorExcluido);
 				pularLinha();
+				printf("Exclusão concluída com sucesso!!");
+				sleep(2);
+				pularLinha();
+				exibirLista(lista);
+				pularLinha();
+				system("pause");
+				aux++;
 				return lista;
 			}
 			else{
-				printf("\nO valor informardo não existe na Lista.");
+				printf("O valor informardo não existe na Lista.");
 				sleep(2);
-				return NULL;
 			}
-	}
-	else{
-		printf("\nInforme o elemento que deseja excluir da Lista: ");
-		scanf("%d", &valorExcluido);
-	
-		if(pesquisarElemento(lista, valorExcluido) == 1){
-			lista = removerQualquerNo(lista, valorExcluido);
-			pularLinha();
-			printf("Exclusão concluída com sucesso!!");
-			sleep(2);
-			pularLinha();
-			exibirLista(lista);
-			pularLinha();
-			system("pause");
-			return lista;
-		}
-		else{
-			printf("O valor informardo não existe na Lista.");
-			return NULL;
-		}
+		}while(aux != 0);
 	}
 }
 
@@ -338,6 +344,7 @@ Lista* carregaNovoValor(Lista *lista) {
 		system("pause");
 		return lista;
 	}
+	
     int valorNovo;
     Lista *novaLista = excluirElemento(lista, 2);
 
@@ -366,26 +373,41 @@ int totalElementosLista(Lista *lista) {
     }
 }
 
-Lista* QtdeElementos(Lista *lista){
+Lista* QtdeElementos(Lista *lista, int caso){
 	int totalelementos = 0;
 	totalelementos = totalElementosLista(lista);
 	if (listaVazia(lista) == 1){
 		printf("\n\na Lista está vazia.\n");	
 		pularLinha();
 		system("pause");
+		return lista;
 	} 
-    else
-	{
-    	Lista *pont;
-        printf("\nLista Atual:\n");
-        for (pont = lista; pont != NULL; pont = pont->prox){
+	Lista *pont;
+	if(caso == 5){
+   		printf("\n\nLista Atual:\n");
+    	for (pont = lista; pont != NULL; pont = pont->prox){
+        	printf("%d -> ", pont->valor);
+		}		
+        pularLinha();
+        pularLinha();
+        system("pause");		
+	}
+    else{
+  	    printf("\n\nLista Atual:\n");
+    	for (pont = lista; pont != NULL; pont = pont->prox){
         	printf("[%d] -> ", pont->valor);
 		}
-     	printf("\n\nA Lista atual contém: %d Elementos\n", totalelementos);
-		pularLinha();
-		pularLinha();
-		system("pause");       
-    }
+		if(totalelementos == 1){
+	   		printf("\n\nA Lista atual contém: %d Elemento\n", totalelementos);
+			pularLinha();
+			system("pause");  		
+		}
+		else{
+	    	printf("\n\nA Lista atual contém: %d Elementos\n", totalelementos);
+			pularLinha();
+			system("pause");  			    
+   		}  	
+	}
 }
 
 void menu(){
@@ -407,10 +429,11 @@ void menu(){
 		
 		printf("\n\nMenu de Opções:");
 		printf("\n1- Inserir elemento de forma ordenada.");
-		printf("\n2- Alterar Elemento.");
-		printf("\n3- Excluir Elemento.");
-		printf("\n4- Localizar Elemento.");
-		printf("\n5- Exibir quantidade de elementos da lista.");
+		printf("\n2- Alterar elemento.");
+		printf("\n3- Excluir elemento.");
+		printf("\n4- Localizar elemento.");
+		printf("\n5- Exibir Todos elementos.");
+		printf("\n6- Exibir quantidade de elementos da lista.");
 		printf("\n0- Encerrar o Programa.");
 	
 		printf("\n\nEscolha um número e pressione ENTER: ");
@@ -447,8 +470,13 @@ void menu(){
 				break;
 			case 5:
 				limpaTela();
+				printf("\t<<<Opcão escolhida: Exibir Todos elementos>>>");
+				QtdeElementos(lista1,5);				
+				break;
+			case 6:
+				limpaTela();
 				printf("\t<<<Opcão escolhida: Exibir quantidade de elementos da lista>>>");
-				QtdeElementos(lista1);				
+				QtdeElementos(lista1,6);				
 				break;
 			case 0:
 				break;
