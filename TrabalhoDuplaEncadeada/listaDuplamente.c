@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
+#include <windows.h>
+
 
 // Estrutura da lista duplamente encadeada
 struct Pessoa {
@@ -11,6 +14,53 @@ struct Pessoa {
     struct Pessoa* prox;
     struct Pessoa* ant;
 };
+
+// Função para inserir uma pessoa de forma ordenada (por idade)
+void inserirPessoaOrdenada(struct Pessoa** head, struct Pessoa* novaPessoa) {
+    if (novaPessoa == NULL) {
+        printf("Erro: Pessoa inválida\n");
+        return;
+    }
+
+    // Caso a lista esteja vazia
+    if (*head == NULL) {
+        *head = novaPessoa;
+        return;
+    }
+
+    struct Pessoa* atual = *head;
+
+    // Inserção no início, caso seja mais jovem que o primeiro
+    if (novaPessoa->idade < atual->idade) {
+        novaPessoa->prox = atual;
+        atual->ant = novaPessoa;
+        *head = novaPessoa;
+        return;
+    }
+
+    // Percorrer a lista para encontrar a posição correta
+    while (atual->prox != NULL && atual->prox->idade < novaPessoa->idade) {
+        atual = atual->prox;
+    }
+
+    // Inserção no meio ou no final da lista
+    novaPessoa->prox = atual->prox;
+    if (atual->prox != NULL) {
+        atual->prox->ant = novaPessoa;
+    }
+    atual->prox = novaPessoa;
+    novaPessoa->ant = atual;
+}
+
+//Função para pular linha.
+void pularLinha(){
+	printf("\n");
+}
+
+//Função para limpar a tela
+void limpaTela(){
+	system("cls");
+}
 
 // Função para criar uma nova pessoa
 struct Pessoa* criarPessoa(int id, char* nome, int idade, char* sexo) {
@@ -49,49 +99,6 @@ void recuperar_arquivo(struct Pessoa** head) {
     
     fclose(arq);
     printf("Dados carregados com sucesso!\n");
-    system("pause");
-}
-
-// Função para inserir uma pessoa de forma ordenada (por idade)
-
-void inserirPessoaOrdenada(struct Pessoa** head, struct Pessoa* novaPessoa) {
-    if (novaPessoa == NULL) {
-        printf("Erro: Pessoa inválida\n");
-        return;
-    }
-
-    // Caso a lista esteja vazia
-    if (*head == NULL) {
-        *head = novaPessoa;
-        printf("Pessoa inserida na lista.\n");
-        return;
-    }
-
-    struct Pessoa* atual = *head;
-
-    // Inserção no início, caso seja mais jovem que o primeiro
-    if (novaPessoa->idade < atual->idade) {
-        novaPessoa->prox = atual;
-        atual->ant = novaPessoa;
-        *head = novaPessoa;
-        printf("Pessoa inserida no início da lista.\n");
-        return;
-    }
-
-    // Percorrer a lista para encontrar a posição correta
-    while (atual->prox != NULL && atual->prox->idade < novaPessoa->idade) {
-        atual = atual->prox;
-    }
-
-    // Inserção no meio ou no final da lista
-    novaPessoa->prox = atual->prox;
-    if (atual->prox != NULL) {
-        atual->prox->ant = novaPessoa;
-    }
-    atual->prox = novaPessoa;
-    novaPessoa->ant = atual;
-
-    printf("Pessoa inserida na lista de forma ordenada.\n");
     system("pause");
 }
 
@@ -211,13 +218,14 @@ void localizarPessoa(struct Pessoa** head, int id) {
 
     // Caso a pessoa com o ID não seja encontrada
     if (atual == NULL) {
-        printf("Pessoa com ID %d não encontrada.\n", id);
+        printf("\nPessoa com ID %d não encontrada.\n", id);
         return;
     }
-
+	limpaTela();
+	printf("<<<\tOpcão escolhida: Buscar cadastro>>>\n");	
     // Exibe informações da pessoa encontrada
-    printf("Pessoa encontrada:\n");
-    printf("ID: %d, Nome: %s, Idade: %d, Sexo: %s\n", atual->id, atual->nome, atual->idade, atual->sexo);
+    printf("\nPessoa encontrada:\n");
+    printf("ID: %d, \nNome: %s, \nIdade: %d, \nSexo: %s\n", atual->id, atual->nome, atual->idade, atual->sexo);
     
     // Opções para editar ou excluir a pessoa
     int opcao;
@@ -231,7 +239,6 @@ void localizarPessoa(struct Pessoa** head, int id) {
     } else if (opcao == 2) {
         removerPessoa(head, id);  // Remove a pessoa encontrada
     }
-    system("pause");
 }
 
 // Função para gravar registros em um arquivo
@@ -282,14 +289,17 @@ void totalElementosLista(struct Pessoa* head) {
     system("pause");
 }
 
-void pularLinha(){
-	printf("\n");
-}
-
 // Função para exibir o menu
 void exibirMenu() {
-    system("cls");
-    printf("\nMenu:\n");
+	setlocale(LC_ALL,"portuguese");
+		
+	char username[100];
+	DWORD username_len = sizeof(username);
+	GetUserName(username, &username_len);
+	limpaTela();
+	printf("\t<<<Este Algoritmo torna possível realizar a manipulação de métodos em uma Lista Encadeada>>>");
+	printf("\n\n\tOlá %s Oque Deseja Fazer...?", username);
+    printf("\n\nMenu:\n");
     printf("1. Inserir novo cadastro (ordenado por idade)\n");
     printf("2. Buscar cadastro\n");
     printf("3. Listar cadastros (ordem crescente)\n");
@@ -316,7 +326,7 @@ int main() {
         switch (opcao) {
             case 1: {
                 system("cls");
-                printf("<<<[INSERINDO PESSOA NOVA]>>>\n");
+                printf("<<<\tOpcão escolhida: Inserir novo cadastro (ordenado por idade)>>>\n");
                 // Inserir cadastro
                 int id, idade;
                 char nome[50], sexo[20];
@@ -339,13 +349,16 @@ int main() {
 
                 struct Pessoa* novaPessoa = criarPessoa(id, nome, idade, sexo);
                 inserirPessoaOrdenada(&head, novaPessoa);
+                printf("\n%s Cadastrado com sucesso!", nome);
+    			pularLinha();
+    			system("pause");
                 break;
             }
             case 2: {
                 system("cls");
-                printf("<<<[LOCALIZAR PESSOA]>>>\n");
+                printf("<<<\tOpcão escolhida: Buscar cadastro>>>\n");
                 int id;
-                printf("Digite o ID da pessoa que deseja encontrar: ");
+                printf("\nDigite o ID da pessoa que deseja encontrar: ");
                 scanf("%d", &id);
                 localizarPessoa(&head, id);
                 break;
