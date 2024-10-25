@@ -3,7 +3,7 @@
 #include <string.h>
 #include <locale.h>
 #include <windows.h>
-
+#include <stdbool.h>
 
 // Estrutura da lista duplamente encadeada
 struct Pessoa {
@@ -15,27 +15,26 @@ struct Pessoa {
     struct Pessoa* ant;
 };
 
-// Função para inserir uma pessoa de forma ordenada (por idade)
-void inserirPessoaOrdenada(struct Pessoa** head, struct Pessoa* novaPessoa) {
+// Função para inserir uma pessoa de forma ordenada (sem mensagens)
+void inserirPessoaSilenciosa(struct Pessoa** head, struct Pessoa* novaPessoa) {
     if (novaPessoa == NULL) {
-        printf("Erro: Pessoa inválida\n");
-        return;
+        return; // Se a nova pessoa é inválida, não faz nada
     }
 
     // Caso a lista esteja vazia
     if (*head == NULL) {
         *head = novaPessoa;
-        return;
+        return; // Retorna sem mensagem
     }
 
     struct Pessoa* atual = *head;
 
-    // Inserção no início, caso seja mais jovem que o primeiro
+    // Inserção no início, caso a pessoa seja mais jovem que o primeiro da lista
     if (novaPessoa->idade < atual->idade) {
         novaPessoa->prox = atual;
         atual->ant = novaPessoa;
         *head = novaPessoa;
-        return;
+        return; // Retorna sem mensagem
     }
 
     // Percorrer a lista para encontrar a posição correta
@@ -52,21 +51,85 @@ void inserirPessoaOrdenada(struct Pessoa** head, struct Pessoa* novaPessoa) {
     novaPessoa->ant = atual;
 }
 
-//Função para pular linha.
-void pularLinha(){
-	printf("\n");
+
+// Função para validar se o ID já existe na lista
+bool validarId(struct Pessoa** head, int id) {
+    struct Pessoa* atual = *head;
+
+    while (atual != NULL) {
+        if (atual->id == id) {
+            printf("Erro: Pessoa com ID %d já existe na lista.\n", id);
+            sleep(3);
+            return true; // Não insere se o ID já existe
+        }
+        atual = atual->prox;
+    }
+    return false;
 }
 
-//Função para limpar a tela
-void limpaTela(){
-	system("cls");
+// Função para pular linha
+void pularLinha() {
+    printf("\n");
+}
+
+// Função para inserir uma pessoa de forma ordenada (por idade)
+void inserirPessoaOrdenada(struct Pessoa** head, struct Pessoa* novaPessoa) {
+    if (novaPessoa == NULL) {
+        printf("Erro: Pessoa inválida\n");
+        return;
+    }
+
+    // Caso a lista esteja vazia
+    if (*head == NULL) {
+        *head = novaPessoa;
+        printf("\n%s cadastrado com sucesso!", novaPessoa->nome);
+        pularLinha();
+        system("pause");
+        return;
+    }
+
+    struct Pessoa* atual = *head;
+
+    // Inserção no início, caso a pessoa seja mais jovem que o primeiro da lista
+    if (novaPessoa->idade < atual->idade) {
+        novaPessoa->prox = atual;
+        atual->ant = novaPessoa;
+        *head = novaPessoa;
+        printf("\n%s cadastrado com sucesso!", novaPessoa->nome);
+        pularLinha();
+        system("pause");
+        return;
+    }
+
+    // Percorrer a lista para encontrar a posição correta
+    while (atual->prox != NULL && atual->prox->idade < novaPessoa->idade) {
+        atual = atual->prox;
+    }
+
+    // Inserção no meio ou no final da lista
+    novaPessoa->prox = atual->prox;
+    if (atual->prox != NULL) {
+        atual->prox->ant = novaPessoa;
+    }
+    atual->prox = novaPessoa;
+    novaPessoa->ant = atual;
+    
+    printf("\n%s cadastrado com sucesso!", novaPessoa->nome);
+    pularLinha();
+    system("pause");
+
+}
+
+// Função para limpar a tela
+void limpaTela() {
+    system("cls");
 }
 
 // Função para criar uma nova pessoa
 struct Pessoa* criarPessoa(int id, char* nome, int idade, char* sexo) {
     struct Pessoa* novaPessoa = (struct Pessoa*)malloc(sizeof(struct Pessoa));
     if (novaPessoa == NULL) {
-        printf("Erro ao alocar memoria.\n");
+        printf("Erro ao alocar memória.\n");
         return NULL;
     }
     novaPessoa->id = id;
@@ -83,29 +146,33 @@ void recuperar_arquivo(struct Pessoa** head) {
     FILE *arq;
     printf("<< Lendo Arquivo de Registros >>\n\n");
     arq = fopen("pessoa.bin", "rb");
-    
+
     if (arq == NULL) {
         printf("Erro ao abrir o arquivo!!!\n");
         return;
     }
-    
+
     struct Pessoa tempPessoa; // Variável temporária para ler os dados
     while (fread(&tempPessoa, sizeof(struct Pessoa), 1, arq) > 0) {
         struct Pessoa* novaPessoa = criarPessoa(tempPessoa.id, tempPessoa.nome, tempPessoa.idade, tempPessoa.sexo);
         if (novaPessoa != NULL) {
-            inserirPessoaOrdenada(head, novaPessoa);
+            // Chama a função de inserção, mas não exibe a mensagem de sucesso
+             inserirPessoaSilenciosa(head, novaPessoa);
         }
     }
-    
+
     fclose(arq);
     printf("Dados carregados com sucesso!\n");
     system("pause");
 }
 
+
 // Função para listar cadastros em ordem crescente (por idade)
 void listarCrescente(struct Pessoa* head) {
     if (head == NULL) {
         printf("Nenhum cadastro encontrado.\n");
+        pularLinha();
+        system("pause");
         return;
     }
 
@@ -116,6 +183,7 @@ void listarCrescente(struct Pessoa* head) {
         printf("ID: %d, Nome: %s, Idade: %d, Sexo: %s\n", atual->id, atual->nome, atual->idade, atual->sexo);
         atual = atual->prox;
     }
+    pularLinha();
     system("pause");
 }
 
@@ -123,6 +191,8 @@ void listarCrescente(struct Pessoa* head) {
 void listarDecrescente(struct Pessoa* head) {
     if (head == NULL) {
         printf("Nenhum cadastro encontrado.\n");
+        pularLinha();
+        system("pause");
         return;
     }
 
@@ -137,6 +207,7 @@ void listarDecrescente(struct Pessoa* head) {
         printf("ID: %d, Nome: %s, Idade: %d, Sexo: %s\n", atual->id, atual->nome, atual->idade, atual->sexo);
         atual = atual->ant;
     }
+    pularLinha();
     system("pause");
 }
 
@@ -206,6 +277,8 @@ void editarPessoa(struct Pessoa* pessoa) {
 void localizarPessoa(struct Pessoa** head, int id) {
     if (*head == NULL) {
         printf("\nLista vazia. Nenhuma pessoa para localizar.\n");
+        pularLinha();
+        system("pause");
         return;
     }
 
@@ -219,175 +292,125 @@ void localizarPessoa(struct Pessoa** head, int id) {
     // Caso a pessoa com o ID não seja encontrada
     if (atual == NULL) {
         printf("\nPessoa com ID %d não encontrada.\n", id);
+        pularLinha();
+        system("pause");
         return;
     }
-	limpaTela();
-	printf("<<<\tOpcão escolhida: Buscar cadastro>>>\n");	
+    limpaTela();
+    printf("<<<\tOpcão escolhida: Buscar cadastro>>>\n");    
     // Exibe informações da pessoa encontrada
     printf("\nPessoa encontrada:\n");
     printf("ID: %d, \nNome: %s, \nIdade: %d, \nSexo: %s\n", atual->id, atual->nome, atual->idade, atual->sexo);
     
-    // Opções para editar ou excluir a pessoa
-    int opcao;
-    printf("\nPara editar o usuario, digite 1.");
-    printf("\nPara excluir o usuario, digite 2.");
-    printf("\nPara continuar digite 0.\n");
-    scanf("%d", &opcao);
-
-    if (opcao == 1) {
-        editarPessoa(atual);  // Edita a pessoa encontrada
-    } else if (opcao == 2) {
-        removerPessoa(head, id);  // Remove a pessoa encontrada
-    }
+    // Editar a pessoa
+    editarPessoa(atual);
 }
 
-// Função para gravar registros em um arquivo
 void gravar_arquivo(struct Pessoa* head) {
-    FILE *arq;
-    struct Pessoa* atual = head;  // Ponteiro para percorrer a lista
-
-    // Limpa a tela
-    system("cls");
-    printf("<< Gravando Registros no Arquivo >>\n\n");
-
-    // Abre o arquivo para gravação
-    arq = fopen("pessoa.bin", "wb");
-    if (arq == NULL) {
-        printf("Erro ao abrir o arquivo!!!\n");
-        return; // Retorna da função se não conseguir abrir o arquivo
-    }
-
-    // Percorre a lista e grava cada registro
-    while (atual != NULL) {
-        fwrite(atual, sizeof(struct Pessoa), 1, arq); // Grava o nó atual
-        atual = atual->prox;  // Avança para o próximo nó
-    }
-
-    // Fecha o arquivo
-    fclose(arq);
-    printf("Registros Gravados com Sucesso!!!\n");
-
-    // Pausa para o usuário
-    system("pause");
-}
-
-// Função para ver quantas pessoas existem na lista
-void totalElementosLista(struct Pessoa* head) {
-    if (head == NULL) {  // Verifica se a lista está vazia
-        printf("\nLista vazia. Nenhuma pessoa para localizar.\n");
+    FILE* arquivo = fopen("pessoa.bin", "wb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para gravação.\n");
         return;
     }
 
-    struct Pessoa *pont;
-    int totalElementos = 0;
-    for (pont = head; pont != NULL; pont = pont->prox) {  // Percorre a lista
-        totalElementos++;
+    struct Pessoa* atual = head;
+
+    // Percorrer toda a lista e escrever cada pessoa no arquivo
+    while (atual != NULL) {
+        fwrite(atual, sizeof(struct Pessoa), 1, arquivo);
+        atual = atual->prox;
     }
 
-    printf("\n\nA lista atual contém %d Cadastros.\n", totalElementos);
-    pularLinha();
-    system("pause");
+    fclose(arquivo);
+    printf("Dados gravados com sucesso.\n");
 }
 
-// Função para exibir o menu
-void exibirMenu() {
-	setlocale(LC_ALL,"portuguese");
-		
-	char username[100];
-	DWORD username_len = sizeof(username);
-	GetUserName(username, &username_len);
-	limpaTela();
-	printf("\t<<<Este Algoritmo torna possível realizar a manipulação de métodos em uma Lista Encadeada>>>");
-	printf("\n\n\tOlá %s Oque Deseja Fazer...?", username);
-    printf("\n\nMenu:\n");
-    printf("1. Inserir novo cadastro (ordenado por idade)\n");
-    printf("2. Buscar cadastro\n");
-    printf("3. Listar cadastros (ordem crescente)\n");
-    printf("4. Listar cadastros (ordem decrescente)\n");
-    printf("5. Verificar quantidade de cadastros existem na lista\n");
-
-    printf("0. Sair\n");
-}
-
-// Função principal
 int main() {
-	
-    struct Pessoa* head = NULL;  // Cabeça da lista
-    int opcao;
+    setlocale(LC_ALL, "Portuguese");
 
-    recuperar_arquivo(&head);
+    struct Pessoa* head = NULL;
 
-    do {
-        exibirMenu();
-        printf("Escolha uma opcao: ");
+    recuperar_arquivo(&head);  // Carregar pessoas do arquivo
+
+    int opcao, id, idade;
+    char nome[50], sexo[20];
+
+    while (1) {
+        limpaTela();
+        
+    	char username[100];
+		DWORD username_len = sizeof(username);
+		GetUserName(username, &username_len);
+		limpaTela();
+		printf("\t<<<Este Algoritmo torna possível realizar a manipulação de métodos em uma Lista Encadeada>>>");
+		printf("\n\n\tOlá %s Oque Deseja Fazer...?", username);
+    	
+        printf("\n\n<<<<<  [ MENU ]  >>>>>>\n");
+        printf("\n1. Inserir Pessoa\n");
+        printf("2. Listar Pessoas (Crescente)\n");
+        printf("3. Listar Pessoas (Decrescente)\n");
+        printf("4. Remover Pessoa\n");
+        printf("5. Localizar e Editar Pessoa\n");
+        printf("0. Sair\n");
+
+        printf("Escolha uma opção: ");
         scanf("%d", &opcao);
-        getchar();  // Consome o '\n' deixado pelo scanf
 
         switch (opcao) {
-            case 1: {
-                system("cls");
-                printf("<<<\tOpcão escolhida: Inserir novo cadastro (ordenado por idade)>>>\n");
-                // Inserir cadastro
-                int id, idade;
-                char nome[50], sexo[20];
-
-                printf("\nDigite o ID: ");
+            case 1:
+                printf("Digite o ID: ");
                 scanf("%d", &id);
-                getchar();  // Consome o '\n' deixado pelo scanf
-
+                if (validarId(&head, id)) {
+                    break;
+                }
                 printf("Digite o nome: ");
+                getchar();  // Consumir o '\n'
                 fgets(nome, sizeof(nome), stdin);
-                nome[strcspn(nome, "\n")] = '\0';  // Remove o '\n' do final da string
+                nome[strcspn(nome, "\n")] = '\0';  // Remover o '\n' do final
 
                 printf("Digite a idade: ");
                 scanf("%d", &idade);
-                getchar();  // Consome o '\n' deixado pelo scanf
 
                 printf("Digite o sexo: ");
+                getchar();  // Consumir o '\n'
                 fgets(sexo, sizeof(sexo), stdin);
-                sexo[strcspn(sexo, "\n")] = '\0';  // Remove o '\n' do final da string
+                sexo[strcspn(sexo, "\n")] = '\0';  // Remover o '\n' do final
 
                 struct Pessoa* novaPessoa = criarPessoa(id, nome, idade, sexo);
                 inserirPessoaOrdenada(&head, novaPessoa);
-                printf("\n%s Cadastrado com sucesso!", nome);
-    			pularLinha();
-    			system("pause");
                 break;
-            }
-            case 2: {
-                system("cls");
-                printf("<<<\tOpcão escolhida: Buscar cadastro>>>\n");
-                int id;
-                printf("\nDigite o ID da pessoa que deseja encontrar: ");
+
+            case 2:
+                listarCrescente(head);
+                break;
+
+            case 3:
+                listarDecrescente(head);
+                break;
+
+            case 4:
+                printf("Digite o ID da pessoa a ser removida: ");
+                scanf("%d", &id);
+                removerPessoa(&head, id);
+                break;
+
+            case 5:
+                printf("Digite o ID da pessoa a ser localizada: ");
                 scanf("%d", &id);
                 localizarPessoa(&head, id);
                 break;
-            }
-            case 3:
-                system("cls");
-                printf("<<<[LISTANDO EM CRESCENTE]>>>\n");
-                listarCrescente(head);
-                break;
-            case 4:
-                system("cls");
-                // Listar cadastros (ordem decrescente)
-                listarDecrescente(head);
-                break;
-            case 5:
-            	system("cls");
-            	totalElementosLista(head);
+
             case 0:
-                printf("Saindo...\n");
-                break;
+                printf("Saindo do programa...\n");
+                gravar_arquivo(head);
+
+                return 0;
+
             default:
-                printf("Opcao invalida. Tente novamente.\n");
+                printf("Opção inválida. Tente novamente.\n");
         }
-        
-    } while (opcao != 0);
-    
-    printf("Gravando registro no arquivo...\n");
-    gravar_arquivo(head);
-    
+    }
+
     return 0;
 }
 
