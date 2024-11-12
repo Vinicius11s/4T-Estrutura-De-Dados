@@ -93,8 +93,9 @@ void liberarPilha(Pilha* p) {
     free(p);
 }
 
-int main() {
-	system("cls");
+int pilha()
+{
+    system("cls");
 	setlocale(LC_ALL,"portuguese");
 	Pilha* pilha = criarPilha();
     int opcao, id, fundacao;
@@ -145,7 +146,11 @@ int main() {
                 break;
         }
     } while (opcao != 5);
-
+} 
+	
+int main() {
+    pilha();
     return 0;
 }
+
 
